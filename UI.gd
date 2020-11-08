@@ -19,3 +19,6 @@ func update_month(month):
 
 func update_zaad(zaad_count):
     $Zaadteller.text = str(zaad_count)
+
+func update_cashmoney(cash_money):
+    $Cashmoney.text = str(cash_money)

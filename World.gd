@@ -6,15 +6,22 @@ extends Node2D
 # 3 = throwable
 # 4 = plant
 # 5 = seedifyable
+# 6 = edible
 
 var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
+var chicken = preload('res://entities/Chicken.tscn')
 func _ready():
     rng.randomize()
     $UI.update_corn(corn_count)
     $UI.update_zaad(seed_count)
     $UI.update_month(months[current_month])
+    $UI.update_cashmoney(money_count)
+    for i in range(40):
+        var kip = chicken.instance()
+        add_child(kip)
+    
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
@@ -31,8 +38,7 @@ func _input(ev):
 var seed_count = 10
 var corn_count = 0
 const velocity_scale = 1.5
-var corn = preload('res://throwables/Corn.tscn')
-var corn_seed = preload('res://throwables/Seed.tscn')
+var corn_seed = preload('res://entities/Seed.tscn')
 
 func _on_Player_throw(node):
     var throwed_node = node
@@ -86,12 +92,37 @@ func _on_MonthTimer_timeout():
 
 
 func _on_Seedificator_consume(node):
+    corn_count += 1 # temp
     seed_count += rng.randi_range(2, 3)
     $UI.update_zaad(seed_count)
-    node.queue_free()
     print(node)
     print('succc the corn')
+    
+    drop_if_holding(node)
+    node.queue_free()
 
+var plant_scene = preload('res://entities/Plant.tscn')
+func _on_Seed_grow_plant(position, node):
+    print('groei groei groei!')
+    var new_plant = plant_scene.instance()
+    add_child(new_plant)
+    new_plant.position = position
+    
+    drop_if_holding(node)
+    node.queue_free()
+    
+var corn_scene = preload('res://entities/Corn.tscn')
+func _on_Plant_spawn_corn(position, node):
+    print('plopperdeplopperdeplop')
+    var new_corn = corn_scene.instance()
+    add_child(new_corn)
+    new_corn.position = position
+    drop_if_holding(node)
+    node.queue_free()
+
+func _on_Chicken_consume(node):
+    drop_if_holding(node)
+    node.queue_free()
 
 func _on_Player_pickup():
     print('pick up the pace boii')
@@ -108,7 +139,34 @@ func _on_Player_pickup():
         if thing.is_in_group('Throwables') and thing.global_position.distance_to($Player.global_position) < nearest_thing.global_position.distance_to($Player.global_position):
             nearest_thing = thing
     if not nearest_thing: return
-    var distance = nearest_thing.global_position.distance_to($Player.global_position)
+    # var distance = nearest_thing.global_position.distance_to($Player.global_position)
 
     nearest_thing.set_physics_process(false)
     $Player.hold(nearest_thing)
+
+func drop_if_holding(node):
+    if $Player.holding == node:
+        $Player.holding = null
+
+
+func _on_Mower_kill(kip):
+    kip.queue_free()
+
+var money_value = 3 # MANEEE
+var money_count = 0
+var money_scene = preload('res://entities/Money.tscn')
+func _on_MoneyPrinter_consume(node):
+    corn_count += 1
+    $UI.update_corn(corn_count)
+    drop_if_holding(node)
+    node.queue_free()
+    for _i in range(money_value):
+        var money = money_scene.instance()
+        add_child(money)
+        money.position = $MoneyPrinter.position
+        money.position.y -= 8
+        money.velocity.x = rand_range(-1, 1)
+        money.velocity.y = rand_range(-1, 1)
+        money.velocity = money.velocity.normalized()
+        money.velocity *= 2
+    

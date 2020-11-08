@@ -6,9 +6,6 @@ signal pickup
 func _ready():
     print('sprite ready bois')
 
-
-const pickup_range = 10
-
 const physics_fps = 60.0
 
 

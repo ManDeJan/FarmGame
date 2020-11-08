@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://entities/Seedificator.gd" type="Script" id=1]
+[ext_resource path="res://sprites/seedmachine.png" type="Texture" id=2]
+
+[sub_resource type="CapsuleShape2D" id=1]
+radius = 9.99999
+height = 0.0
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 15.5564, 15.5563 )
+
+[node name="Seedificator" type="KinematicBody2D" groups=[
+"Throwables",
+]]
+collision_layer = 4
+collision_mask = 6
+script = ExtResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, 5 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource( 1 )
+
+[node name="Pickuparea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Pickuparea"]
+rotation = 0.785398
+shape = SubResource( 2 )
+[connection signal="body_entered" from="Pickuparea" to="." method="_on_Pickuparea_body_entered"]

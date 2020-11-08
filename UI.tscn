@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://fonts/m6x11.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://UI.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://sprites/ui_bg.png" type="Texture" id=4]
 [ext_resource path="res://sprites/month.png" type="Texture" id=5]
 [ext_resource path="res://sprites/seed.png" type="Texture" id=6]
+[ext_resource path="res://sprites/cashmoney.png" type="Texture" id=7]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
@@ -30,11 +31,26 @@ __meta__ = {
 [node name="Zaadteller" type="Label" parent="."]
 margin_left = 81.0
 margin_top = 2.0
-margin_right = 117.0
+margin_right = 123.0
 margin_bottom = 18.0
+rect_pivot_offset = Vector2( 17, 8 )
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.984314, 1, 0.52549, 1 )
-text = "00000"
+text = "000000"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Cashmoney" type="Label" parent="."]
+margin_left = 143.0
+margin_top = 2.0
+margin_right = 185.0
+margin_bottom = 18.0
+rect_pivot_offset = Vector2( 17, 8 )
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.984314, 1, 0.52549, 1 )
+text = "000000"
 valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -87,3 +103,7 @@ flip_v = true
 position = Vector2( 13, 12 )
 texture = ExtResource( 6 )
 flip_h = true
+
+[node name="cashmoney" type="Sprite" parent="."]
+position = Vector2( 134, 10 )
+texture = ExtResource( 7 )
