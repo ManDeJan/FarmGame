@@ -1,9 +1,11 @@
 extends KinematicBody2D
 
 signal consume
+signal spawn_chicken
 
 func _ready():
     connect("consume", get_tree().get_root().get_node("World"), "_on_Chicken_consume")
+    connect("spawn_chicken", get_tree().get_root().get_node("World"), "_spawn_chicken")
 
 const physics_fps = 60.0
 
@@ -53,6 +55,7 @@ func _physics_process(delta):
 
 var eating = null
 
+
 func _on_SelectTarget_timeout():
     if state == State.HUNGRY:
         var targets = get_tree().get_nodes_in_group("Edible")
@@ -61,6 +64,8 @@ func _on_SelectTarget_timeout():
             target_pos.y = (randi() % 200) - 20
             return
         var target = targets[randi() % targets.size()]
+        eating = target
+        
         target_pos = target.position
     elif state == State.RUNNING:
         var player_pos = get_tree().get_root().get_node("World").get_node("Player").position
@@ -73,14 +78,13 @@ func _on_SelectTarget_timeout():
         target_pos.y -= y;
 
 func _on_EatingRange_body_entered(body):
-    $TimeToEat.start()
-    eating = body
-
+    if body == eating:
+        $TimeToEat.start()
+        eating = body
 
 func _on_EatingRange_body_exited(body):
     if eating == body:
-        eating = null
-    $TimeToEat.stop()
+        $TimeToEat.stop()
     
 func _on_TimeToEat_timeout():
     emit_signal("consume", eating)
@@ -90,3 +94,5 @@ func _on_TimeToEat_timeout():
 
 func _on_RunRunRun_timeout():
     state = State.HUNGRY
+    print('Spawn chick plox')
+    emit_signal("spawn_chicken")

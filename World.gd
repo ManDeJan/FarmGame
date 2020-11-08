@@ -19,10 +19,8 @@ func _ready():
     $UI.update_month(months[current_month])
     $UI.update_cashmoney(money_count)
     $UI.update_stonk(money_value)
-#    for i in range(40):
-#        var kip = chicken.instance()
-#        add_child(kip)
-#
+    play_month()
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
@@ -92,7 +90,42 @@ func _on_MonthTimer_timeout():
     $UI.update_month(months[current_month])
     play_month()
     
-play_month()
+const month_data = [
+    [1, 3, 3], # 0
+    [3, 4, 5], # 1
+    [3, 4, 5], # 2
+    [4, 5, 6], # 3
+    [6, 7, 8], # 4
+    [6, 7, 7], # 5
+    [10, 10, 10], # 6
+    [6, 6, 6], # 7
+    [6, 7, 8], # 8
+    [9, 10, 10], # 9
+    [11, 12, 13], # 10
+    [20, 0, 0], # 11       
+]
+
+
+func _spawn_chicken():
+    var kip = chicken.instance()
+    add_child(kip)
+    $ChickenSpawn/ChickenSpawnSampler.offset = randi()
+    kip.position = $ChickenSpawn/ChickenSpawnSampler.position
+    print("B")
+
+var wave_count = 0
+func play_month():
+    print("Month: {0}, Wave: {1}".format({1: wave_count, 0: current_month}))
+    
+    for _i in range(month_data[current_month][wave_count]):
+        _spawn_chicken()
+    
+    wave_count += 1
+    if wave_count == 3:
+        wave_count = 0
+        return
+    yield(get_tree().create_timer($MonthTimer.wait_time / 4), "timeout");
+    play_month()
 
 
 func _on_Seedificator_consume(node):

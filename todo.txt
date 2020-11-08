@@ -1,9 +1,8 @@
 
 sound effects
 
-chicken spawn in waves
-maanden
+nieuwe achtergrond tile
+chicken breeeeed
 
-nieuwe achtergrond tiles
-
+eind screen + highscore
 server code
