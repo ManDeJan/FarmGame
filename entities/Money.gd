@@ -1,16 +1,22 @@
 extends KinematicBody2D
 
+signal caching
+
 func _ready():
-    print('Brrr')
+    connect("caching", get_tree().get_root().get_node("World"), "_on_Money_caching")
+    $AnimationPlayer.play("fade")
 
 var velocity = Vector2.ZERO
 const friction = 0.01
 const physics_fps = 60.0
 
+const max_speed = 10.0
 func _physics_process(delta):
     var delta_fps = delta * physics_fps
 
     velocity = velocity.move_toward(Vector2.ZERO, friction * delta_fps)
+    velocity = velocity.clamped(max_speed)
+    
     var col = move_and_collide(velocity * delta_fps)
     if col:
         if col.collider.is_in_group('Wall'):
@@ -23,3 +29,7 @@ func _physics_process(delta):
             velocity = velocity.bounce(col.normal) / 2
             var motion = col.remainder.bounce(col.normal) / 2
             move_and_collide(motion)
+            
+func _on_AnimationPlayer_animation_finished(anim_name):
+    emit_signal("caching")
+    queue_free()

@@ -22,3 +22,6 @@ func update_zaad(zaad_count):
 
 func update_cashmoney(cash_money):
     $Cashmoney.text = str(cash_money)
+
+func update_stonk(stonk):
+    $Stonk.text = str(stonk)

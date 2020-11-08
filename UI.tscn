@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://fonts/m6x11.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://UI.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://sprites/month.png" type="Texture" id=5]
 [ext_resource path="res://sprites/seed.png" type="Texture" id=6]
 [ext_resource path="res://sprites/cashmoney.png" type="Texture" id=7]
+[ext_resource path="res://sprites/stonks.png" type="Texture" id=8]
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 1 )
@@ -37,6 +38,20 @@ rect_pivot_offset = Vector2( 17, 8 )
 custom_fonts/font = SubResource( 1 )
 custom_colors/font_color = Color( 0.984314, 1, 0.52549, 1 )
 text = "000000"
+valign = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stonk" type="Label" parent="."]
+margin_left = 248.0
+margin_top = 2.0
+margin_right = 290.0
+margin_bottom = 18.0
+rect_pivot_offset = Vector2( 17, 8 )
+custom_fonts/font = SubResource( 1 )
+custom_colors/font_color = Color( 0.984314, 1, 0.52549, 1 )
+text = "0000"
 valign = 2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -86,6 +101,14 @@ offset = Vector2( -8, -13 )
 position = Vector2( 286, 10 )
 texture = ExtResource( 5 )
 
+[node name="cashmoney" type="Sprite" parent="."]
+position = Vector2( 134, 10 )
+texture = ExtResource( 7 )
+
+[node name="stonks" type="Sprite" parent="."]
+position = Vector2( 230, 10 )
+texture = ExtResource( 8 )
+
 [node name="Node" type="Node2D" parent="."]
 position = Vector2( 62, 3 )
 
@@ -103,7 +126,3 @@ flip_v = true
 position = Vector2( 13, 12 )
 texture = ExtResource( 6 )
 flip_h = true
-
-[node name="cashmoney" type="Sprite" parent="."]
-position = Vector2( 134, 10 )
-texture = ExtResource( 7 )

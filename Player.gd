@@ -75,11 +75,14 @@ func _physics_process(delta):
         holding.position.y -= 24
         
 func _process(_delta):
-    if Input.is_action_just_pressed('throw'): 
-        emit_signal('throw', holding)
-        holding = null
-    if Input.is_action_just_pressed('pickup'): 
-        emit_signal('pickup')
+    if Input.is_action_just_pressed('throw'):
+        if holding: 
+            emit_signal('throw', holding)
+            holding = null
+        else:
+            emit_signal("pickup")
+    if Input.is_action_just_pressed('throw_zaad'): 
+        emit_signal('throw', null)
 
 func hold(node):
     holding = node

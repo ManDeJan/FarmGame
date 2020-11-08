@@ -18,10 +18,11 @@ func _ready():
     $UI.update_zaad(seed_count)
     $UI.update_month(months[current_month])
     $UI.update_cashmoney(money_count)
-    for i in range(40):
-        var kip = chicken.instance()
-        add_child(kip)
-    
+    $UI.update_stonk(money_value)
+#    for i in range(40):
+#        var kip = chicken.instance()
+#        add_child(kip)
+#
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 
@@ -89,6 +90,9 @@ func _on_MonthTimer_timeout():
     if current_month == 12:
         current_month = 0 # temp fix
     $UI.update_month(months[current_month])
+    play_month()
+    
+play_month()
 
 
 func _on_Seedificator_consume(node):
@@ -152,9 +156,9 @@ func drop_if_holding(node):
 func _on_Mower_kill(kip):
     kip.queue_free()
 
-var money_value = 3 # MANEEE
 var money_count = 0
 var money_scene = preload('res://entities/Money.tscn')
+
 func _on_MoneyPrinter_consume(node):
     corn_count += 1
     $UI.update_corn(corn_count)
@@ -165,8 +169,20 @@ func _on_MoneyPrinter_consume(node):
         add_child(money)
         money.position = $MoneyPrinter.position
         money.position.y -= 8
+        money.position.x += rand_range(-2, 2)
+        money.position.y += rand_range(-2, 2)
         money.velocity.x = rand_range(-1, 1)
         money.velocity.y = rand_range(-1, 1)
         money.velocity = money.velocity.normalized()
         money.velocity *= 2
+
+var money_value = 3 # MANEEE
+func _on_StonkUpdateTimer_timeout():
+    print('beep boop computer goes brrr')
+    money_value += rng.randi_range(-2, 2)
+    money_value = clamp(money_value, 1, 8)
+    $UI.update_stonk(money_value)
     
+func _on_Money_caching():
+    money_count += 1
+    $UI.update_cashmoney(money_count)

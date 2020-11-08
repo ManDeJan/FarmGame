@@ -13,10 +13,13 @@ const friction = 0.1
 const physics_fps = 60.0
 var test = "hello"
 
+const max_speed = 10.0
 func _physics_process(delta):
     var delta_fps = delta * physics_fps
 
     velocity = velocity.move_toward(Vector2.ZERO, friction * delta_fps)
+    velocity = velocity.clamped(max_speed)
+    
     var col = move_and_collide(velocity * delta_fps)
     if col:
         if col.collider.is_in_group('Wall'):
@@ -29,7 +32,6 @@ func _physics_process(delta):
             velocity = velocity.bounce(col.normal) / 2
             var motion = col.remainder.bounce(col.normal) / 2
             move_and_collide(motion)
-            
 
 func water():
     emit_signal('grow_plant', position, self)

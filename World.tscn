@@ -75,6 +75,7 @@ flip_h = true
 [node name="UI" parent="." instance=ExtResource( 4 )]
 
 [node name="MonthTimer" type="Timer" parent="."]
+wait_time = 50.0
 autostart = true
 
 [node name="Seedificator" parent="." instance=ExtResource( 6 )]
@@ -90,9 +91,14 @@ position = Vector2( 258, 51 )
 
 [node name="MoneyPrinter" parent="." instance=ExtResource( 9 )]
 position = Vector2( 62, 93 )
+
+[node name="StonkUpdateTimer" type="Timer" parent="."]
+wait_time = 5.0
+autostart = true
 [connection signal="pickup" from="Player" to="." method="_on_Player_pickup"]
 [connection signal="throw" from="Player" to="." method="_on_Player_throw"]
 [connection signal="timeout" from="MonthTimer" to="." method="_on_MonthTimer_timeout"]
 [connection signal="consume" from="Seedificator" to="." method="_on_Seedificator_consume"]
 [connection signal="kill" from="Mower" to="." method="_on_Mower_kill"]
 [connection signal="consume" from="MoneyPrinter" to="." method="_on_MoneyPrinter_consume"]
+[connection signal="timeout" from="StonkUpdateTimer" to="." method="_on_StonkUpdateTimer_timeout"]

@@ -7,10 +7,13 @@ var velocity = Vector2.ZERO
 const friction = 0.1
 const physics_fps = 60.0
 
+const max_speed = 10.0
 func _physics_process(delta):
     var delta_fps = delta * physics_fps
 
     velocity = velocity.move_toward(Vector2.ZERO, friction * delta_fps)
+    velocity = velocity.clamped(max_speed)
+    
     var col = move_and_collide(velocity * delta_fps)
     if col:
         if col.collider.is_in_group('Wall'):
