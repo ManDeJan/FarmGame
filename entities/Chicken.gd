@@ -77,16 +77,18 @@ func _on_SelectTarget_timeout():
         target_pos.y -= y;
 
 func _on_EatingRange_body_entered(body):
+    if not is_instance_valid(eating): return
     if body == eating:
         $TimeToEat.start()
         eating = body
 
 func _on_EatingRange_body_exited(body):
+    if not is_instance_valid(eating): return
     if eating == body:
         $TimeToEat.stop()
     
 func _on_TimeToEat_timeout():
-    if not eating: return # pls do not crash <3
+    if not is_instance_valid(eating): return # pls do not crash <3
     emit_signal("consume", eating)
     state = State.RUNNING
     $RunRunRun.start()

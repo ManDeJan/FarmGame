@@ -32,6 +32,8 @@ func _process(_delta):
 func _input(ev):
     if ev.is_action_pressed('maximize'):
         OS.window_fullscreen = !OS.window_fullscreen
+    if OS.is_debug_build() and ev.is_action_pressed('debug'):
+        load_highscore_screen()
 
 
 var seed_count = 5
@@ -86,22 +88,23 @@ var current_month = 0
 func _on_MonthTimer_timeout():
     current_month += 1
     if current_month == 12:
-        current_month = 0 # temp fix
+        load_highscore_screen()
+        return
     $UI.update_month(months[current_month])
     play_month()
     
 const month_data = [
-    [1, 3, 3], # 0
-    [3, 4, 5], # 1
-    [3, 4, 5], # 2
-    [4, 5, 6], # 3
-    [6, 7, 8], # 4
-    [6, 7, 7], # 5
+    [1, 2, 2], # 0
+    [2, 3, 3], # 1
+    [2, 3, 3], # 2
+    [3, 3, 4], # 3
+    [2, 2, 4], # 4
+    [5, 5, 5], # 5
     [10, 10, 10], # 6
-    [6, 6, 6], # 7
-    [6, 7, 8], # 8
-    [9, 10, 10], # 9
-    [11, 12, 13], # 10
+    [2, 2, 2], # 7
+    [4, 5, 6], # 8
+    [5, 5, 5], # 9
+    [3, 3, 7], # 10
     [20, 0, 0], # 11       
 ]
 
@@ -111,26 +114,39 @@ func _spawn_chicken():
     $ChickenSpawn/ChickenSpawnSampler.offset = randi()
     kip.position = $ChickenSpawn/ChickenSpawnSampler.position
 
+
 var wave_count = 0
 enum Season {SUMMER = 0, AUTUMN = 1, WINTER = 2}
-func play_month():
-    print("Month: {0}, Wave: {1}".format({1: wave_count, 0: current_month}))
-    
+func play_month():    
     seed_count += 5
     $UI.update_zaad(seed_count)
     
+    if 3 <= current_month and current_month <= 7:
+        print('Zomer')
+        $Background.frame = Season.SUMMER
+    elif 8 <= current_month and current_month <= 10:
+        print('Herfst')
+        $Background.frame = Season.AUTUMN
+    else:
+        print('Winter')
+        $Background.frame = Season.WINTER
+    next_wave()
+
+func next_wave():
+    if current_month > 11 or wave_count > 2:
+        print("NANI")
+        return
+    print("Month: {0}, Wave: {1}".format({1: wave_count, 0: current_month}))
+
     for _i in range(month_data[current_month][wave_count]):
         _spawn_chicken()
-    
+
     wave_count += 1
     if wave_count == 3:
         wave_count = 0
         return
-#    yield(get_tree().create_timer($MonthTimer.wait_time / 4), "timeout");
-    yield(get_tree().create_timer(12.5), "timeout");
-    play_month()
-
-
+    $WaveTimer.start()
+        
 func _on_Seedificator_consume(node):
     corn_count += 1 # temp
     seed_count += rng.randi_range(2, 3)
@@ -144,7 +160,7 @@ onready var plant_scene = preload('res://entities/Plant.tscn')
 func _on_Seed_grow_plant(position, node):
     print('groei groei groei!')
     var new_plant = plant_scene.instance()
-    add_child(new_plant)
+    call_deferred("add_child", new_plant)
     new_plant.position = position
     
     drop_if_holding(node)
@@ -184,9 +200,9 @@ func _on_Player_pickup():
     $Player.hold(nearest_thing)
 
 func drop_if_holding(node):
+    if not is_instance_valid(node): return
     if $Player.holding == node:
         $Player.holding = null
-
 
 func _on_Mower_kill(kip):
     kip.queue_free()
@@ -201,7 +217,7 @@ func _on_MoneyPrinter_consume(node):
     node.queue_free()
     for _i in range(money_value):
         var money = money_scene.instance()
-        add_child(money)
+        call_deferred("add_child", money)
         money.position = $MoneyPrinter.position
         money.position.y -= 8
         money.position.x += rand_range(-2, 2)
@@ -221,3 +237,11 @@ func _on_StonkUpdateTimer_timeout():
 func _on_Money_caching():
     money_count += 1
     $UI.update_cashmoney(money_count)
+    
+onready var highscore_scene = preload('res://Highscores.tscn')
+func load_highscore_screen():
+    queue_free()
+    var highscore = highscore_scene.instance()
+    get_tree().get_root().add_child(highscore)
+    highscore.set_score(money_count)    
+    get_tree().set_current_scene(highscore)

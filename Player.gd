@@ -70,13 +70,13 @@ func _physics_process(delta):
             var motion = col.remainder.bounce(col.normal) / 2
             move_and_collide(motion)
             
-    if holding:
+    if holding and is_instance_valid(holding):
         holding.position = position
         holding.position.y -= 24
         
 func _process(_delta):
     if Input.is_action_just_pressed('throw'):
-        if holding: 
+        if holding and is_instance_valid(holding): 
             emit_signal('throw', holding)
             holding = null
         else:
@@ -85,4 +85,5 @@ func _process(_delta):
         emit_signal('throw', null)
 
 func hold(node):
+    if not is_instance_valid(node): return
     holding = node
