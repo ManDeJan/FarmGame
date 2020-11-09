@@ -1,7 +1,5 @@
 
 sound effects
 
-nieuwe achtergrond tile
-
 eind screen + highscore
 server code

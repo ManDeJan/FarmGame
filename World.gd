@@ -34,7 +34,7 @@ func _input(ev):
         OS.window_fullscreen = !OS.window_fullscreen
 
 
-var seed_count = 10
+var seed_count = 5
 var corn_count = 0
 const velocity_scale = 1.5
 onready var corn_seed = preload('res://entities/Seed.tscn')
@@ -105,17 +105,19 @@ const month_data = [
     [20, 0, 0], # 11       
 ]
 
-
 func _spawn_chicken():
     var kip = chicken.instance()
     add_child(kip)
     $ChickenSpawn/ChickenSpawnSampler.offset = randi()
     kip.position = $ChickenSpawn/ChickenSpawnSampler.position
-    print("B")
 
 var wave_count = 0
+enum Season {SUMMER = 0, AUTUMN = 1, WINTER = 2}
 func play_month():
     print("Month: {0}, Wave: {1}".format({1: wave_count, 0: current_month}))
+    
+    seed_count += 5
+    $UI.update_zaad(seed_count)
     
     for _i in range(month_data[current_month][wave_count]):
         _spawn_chicken()
@@ -124,7 +126,8 @@ func play_month():
     if wave_count == 3:
         wave_count = 0
         return
-    yield(get_tree().create_timer($MonthTimer.wait_time / 4), "timeout");
+#    yield(get_tree().create_timer($MonthTimer.wait_time / 4), "timeout");
+    yield(get_tree().create_timer(12.5), "timeout");
     play_month()
 
 
@@ -132,7 +135,6 @@ func _on_Seedificator_consume(node):
     corn_count += 1 # temp
     seed_count += rng.randi_range(2, 3)
     $UI.update_zaad(seed_count)
-    print(node)
     print('succc the corn')
     
     drop_if_holding(node)
