@@ -55,7 +55,6 @@ func _physics_process(delta):
 
 var eating = null
 
-
 func _on_SelectTarget_timeout():
     if state == State.HUNGRY:
         var targets = get_tree().get_nodes_in_group("Edible")
@@ -87,10 +86,10 @@ func _on_EatingRange_body_exited(body):
         $TimeToEat.stop()
     
 func _on_TimeToEat_timeout():
+    if not eating: return # pls do not crash <3
     emit_signal("consume", eating)
     state = State.RUNNING
     $RunRunRun.start()
-
 
 func _on_RunRunRun_timeout():
     state = State.HUNGRY

@@ -11,7 +11,7 @@ extends Node2D
 var rng = RandomNumberGenerator.new()
 
 # Called when the node enters the scene tree for the first time.
-var chicken = preload('res://entities/Chicken.tscn')
+onready var chicken = preload('res://entities/Chicken.tscn')
 func _ready():
     rng.randomize()
     $UI.update_corn(corn_count)
@@ -37,7 +37,7 @@ func _input(ev):
 var seed_count = 10
 var corn_count = 0
 const velocity_scale = 1.5
-var corn_seed = preload('res://entities/Seed.tscn')
+onready var corn_seed = preload('res://entities/Seed.tscn')
 
 func _on_Player_throw(node):
     var throwed_node = node
@@ -138,7 +138,7 @@ func _on_Seedificator_consume(node):
     drop_if_holding(node)
     node.queue_free()
 
-var plant_scene = preload('res://entities/Plant.tscn')
+onready var plant_scene = preload('res://entities/Plant.tscn')
 func _on_Seed_grow_plant(position, node):
     print('groei groei groei!')
     var new_plant = plant_scene.instance()
@@ -148,7 +148,7 @@ func _on_Seed_grow_plant(position, node):
     drop_if_holding(node)
     node.queue_free()
     
-var corn_scene = preload('res://entities/Corn.tscn')
+onready var corn_scene = preload('res://entities/Corn.tscn')
 func _on_Plant_spawn_corn(position, node):
     print('plopperdeplopperdeplop')
     var new_corn = corn_scene.instance()
@@ -190,7 +190,7 @@ func _on_Mower_kill(kip):
     kip.queue_free()
 
 var money_count = 0
-var money_scene = preload('res://entities/Money.tscn')
+onready var money_scene = preload('res://entities/Money.tscn')
 
 func _on_MoneyPrinter_consume(node):
     corn_count += 1

@@ -2,7 +2,6 @@
 sound effects
 
 nieuwe achtergrond tile
-chicken breeeeed
 
 eind screen + highscore
 server code
