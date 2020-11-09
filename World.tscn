@@ -110,6 +110,7 @@ frame = 2
 [node name="WaveTimer" type="Timer" parent="."]
 wait_time = 6.25
 one_shot = true
+
 [connection signal="pickup" from="Player" to="." method="_on_Player_pickup"]
 [connection signal="throw" from="Player" to="." method="_on_Player_throw"]
 [connection signal="timeout" from="MonthTimer" to="." method="_on_MonthTimer_timeout"]
