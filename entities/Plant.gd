@@ -5,6 +5,7 @@ signal spawn_corn
 
 var stage = 0
 func _ready():
+    print('--- New plant')
     connect("spawn_corn", get_tree().get_root().get_node("World"), "_on_Plant_spawn_corn")
     set_stage()
 

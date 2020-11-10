@@ -18,7 +18,7 @@ extents = Vector2( 180, 10 )
 
 [sub_resource type="Curve2D" id=3]
 _data = {
-"points": PoolVector2Array( 0, 0, 0, 0, 161, -59, 0, 0, 0, 0, -63, -30, 0, 0, 0, 0, -82, 119, 0, 0, 0, 0, -22, 274, 0, 0, 0, 0, 132, 318, 0, 0, 0, 0, 355, 291, 0, 0, 0, 0, 430, 153, 0, 0, 0, 0, 409, -3, 0, 0, 0, 0, 268, -82, 0, 0, 0, 0, 161, -59 )
+"points": PoolVector2Array( 0, 0, 0, 0, -90, 321, 0, 0, 0, 0, 429, 321, 0, 0, 0, 0, 429, -64, 0, 0, 0, 0, -90, -64, 0, 0, 0, 0, -90, 321 )
 }
 
 [node name="World" type="Node2D"]
@@ -97,8 +97,7 @@ autostart = true
 curve = SubResource( 3 )
 
 [node name="ChickenSpawnSampler" type="PathFollow2D" parent="ChickenSpawn"]
-position = Vector2( 161, -59 )
-rotation = 3.01285
+position = Vector2( -90, 321 )
 
 [node name="Background" type="Sprite" parent="."]
 position = Vector2( 160, 100 )
@@ -110,7 +109,6 @@ frame = 2
 [node name="WaveTimer" type="Timer" parent="."]
 wait_time = 6.25
 one_shot = true
-
 [connection signal="pickup" from="Player" to="." method="_on_Player_pickup"]
 [connection signal="throw" from="Player" to="." method="_on_Player_throw"]
 [connection signal="timeout" from="MonthTimer" to="." method="_on_MonthTimer_timeout"]

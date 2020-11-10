@@ -4,7 +4,7 @@ signal throw
 signal pickup
 
 func _ready():
-    print('sprite ready bois')
+    print('--- Player ready')
 
 const physics_fps = 60.0
 

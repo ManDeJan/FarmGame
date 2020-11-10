@@ -7,6 +7,9 @@ const friction = 0.1
 const physics_fps = 60.0
 onready var sprite = $Sprite
 
+func _ready():
+    print('--- New seedificator')
+
 const max_speed = 10.0
 func _physics_process(delta):
     var delta_fps = delta * physics_fps
@@ -30,5 +33,4 @@ func _physics_process(delta):
             move_and_collide(motion)
 
 func _on_Pickuparea_body_entered(body):
-    print(body)
     emit_signal('consume', body)

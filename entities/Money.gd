@@ -3,6 +3,7 @@ extends KinematicBody2D
 signal caching
 
 func _ready():
+    print('--- New money')
     connect("caching", get_tree().get_root().get_node("World"), "_on_Money_caching")
     $AnimationPlayer.play("fade")
 

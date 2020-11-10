@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 func _ready():
-    print('The corn must flow')
-
+    print('--- New corn')
+    
 var velocity = Vector2.ZERO
 const friction = 0.1
 const physics_fps = 60.0

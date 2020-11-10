@@ -4,9 +4,9 @@ signal grow_plant
 
 onready var sprite = $Sprite
 func _ready():
+    print('--- New seed')
     connect("grow_plant", get_tree().get_root().get_node("World"), "_on_Seed_grow_plant")
     add_to_group("Waterable")
-    print('The seed must flow')
 
 var velocity = Vector2.ZERO
 const friction = 0.1

@@ -4,6 +4,9 @@ var velocity = Vector2.ZERO
 const friction = 0.1
 const physics_fps = 60.0
 
+func _ready():
+    print('--- New watercan')
+
 const max_speed = 10.0
 func _physics_process(delta):
     var delta_fps = delta * physics_fps
@@ -28,5 +31,4 @@ func _physics_process(delta):
 
 func _on_WateringArea_body_entered(body):
     if not body.is_in_group("Waterable"): return
-    print('GEEF DIE JONGEN EEN SLOKKIE')
     body.water()
