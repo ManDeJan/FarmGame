@@ -32,9 +32,11 @@ wait_time = 2.0
 autostart = true
 
 [node name="TimeToEat" type="Timer" parent="."]
+one_shot = true
 
 [node name="RunRunRun" type="Timer" parent="."]
 wait_time = 4.0
+one_shot = true
 [connection signal="body_entered" from="EatingRange" to="." method="_on_EatingRange_body_entered"]
 [connection signal="body_exited" from="EatingRange" to="." method="_on_EatingRange_body_exited"]
 [connection signal="timeout" from="SelectTarget" to="." method="_on_SelectTarget_timeout"]
